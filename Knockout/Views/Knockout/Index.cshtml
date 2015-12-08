@@ -1,0 +1,63 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Knockout";
+    
+}
+
+@section style
+{
+    <style>
+        
+
+        .error {
+            background-color: red;
+            color: #fff;
+        }
+        
+         
+    </style>
+
+}
+
+
+<section class="container">
+
+    <h2>@ViewBag.Title</h2>
+
+    <input type="text" data-bind="textInput: newValue"/>
+    <div data-bind="css: {error : !isValid()}">this is not number</div>
+    <div>you enter <span data-bind="text: X"></span></div>
+    
+    
+    
+
+</section>
+<script>
+    
+   function myModel() {
+        
+        this.X = ko.observable(0);
+        this.isValid = ko.observable(true);
+        this.newValue = ko.pureComputed(
+            {
+                read: this.X,
+                write: function (value) {
+                    if(isNaN(value)) {
+                        this.isValid(false);
+                    } else {
+                        this.X(value);
+                        this.isValid(true);
+                    }
+                },
+                owner: this
+
+
+            });
+
+    }
+
+    ko.applyBindings(new myModel());
+
+
+</script>
